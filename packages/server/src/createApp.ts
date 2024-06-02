@@ -1,11 +1,13 @@
 import express from "express";
+import { Express } from "express-serve-static-core";
+import taskRouter from './routes/tasks';
 
-export default function createApp(): express.Express {
+export default function createApp(): Express {
   const app = express();
+
   app.use(express.json());
-  app.get("/", (req: express.Request, res: express.Response) => {
-    return res.send("Hello from ExpressJS");
-  });
+
+  app.use("/api/tasks", taskRouter);
 
   return app;
 }
