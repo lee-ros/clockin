@@ -1,3 +1,5 @@
+require("dotenv").config({ path: "../../.env" });
+
 import createApp from "./createApp";
 
 const app = createApp();
