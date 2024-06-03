@@ -1,56 +1,40 @@
 import { Request, Response } from "express-serve-static-core";
-
-interface IDParams<IDType = number> {
-  id: IDType;
-}
-
-interface TaskRequest {
-  user_id: number;
-  taskName?: string;
-  taskDescription?: string;
-}
-
-interface Task extends TaskRequest {
-  id: number;
-  createdAt: Date;
-}
+import { db } from "../db";
+import { tasks } from "../db/sql";
+import { randomUUID } from "crypto";
+import { Task, TaskRequest } from '../types/tasks'
+import { IDParams } from "../types/common";
 
 const mockData: Task[] = [
   {
     id: 1,
-    user_id: 1,
+    userId: 1,
     taskName: "Dummy Task",
     taskDescription: "Some dummy task",
     createdAt: new Date(),
   },
   {
     id: 2,
-    user_id: 1,
+    userId: 1,
     taskName: "Dummy Task 2",
     taskDescription: "Some dummy task",
     createdAt: new Date(),
   },
 ];
 
-export function getTasks(request: Request, response: Response<Task[]>) {
+export async function getTasks(_request: Request, response: Response<Task[]>) {
+  const values = await db.manyOrNone(tasks.byUser, { userId: 1});
+  console.log(values);
   return response.send(mockData);
 }
 
-export function createTask(
+export async function createTask(
   request: Request<{}, {}, TaskRequest>,
   response: Response<Task>
 ) {
-  const { user_id, taskName: taskeName, taskDescription } = request.body;
-  const newTask: Task = {
-    id: mockData.length + 1,
-    user_id,
-    taskName: taskeName,
-    taskDescription,
-    createdAt: new Date(),
-  };
-
-  mockData.push(newTask);
-  return response.send(newTask);
+  const newTask: Task = await db.one(tasks.add, {userId: randomUUID(), taskName: "Task 1", taskDescription: ""});
+  console.log(newTask);
+  return response.send(mockData[1]);
 }
 
 export function updateTask(
