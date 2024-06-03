@@ -1,9 +1,8 @@
 import * as argon2 from "argon2";
 import { Request, Response } from "express-serve-static-core";
-import { User, UserRequest, UserResponse } from "../types/users";
+
+import { IDParams, UserRequest, UserResponse } from "../types";
 import { db } from "../db";
-import { users as sql } from "../db/sql";
-import { IDParams } from "../types/common";
 
 export async function createUser(
   request: Request<{}, {}, UserRequest>,

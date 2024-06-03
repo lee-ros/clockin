@@ -1,4 +1,3 @@
-import { UUID } from "crypto";
 import { IDParams } from "./common";
 
 type UserBase = {

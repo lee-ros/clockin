@@ -2,8 +2,7 @@ import { Request, Response } from "express-serve-static-core";
 import { db } from "../db";
 import { tasks } from "../db/sql";
 import { randomUUID } from "crypto";
-import { Task, TaskRequest } from '../types/tasks'
-import { IDParams } from "../types/common";
+import { IDParams, Task, TaskRequest } from '../types'
 
 const mockData: Task[] = [
   {

@@ -1,7 +1,8 @@
 import { IDatabase, IMain } from "pg-promise";
-import { users as sql } from "../sql";
-import { User } from "../../types/users";
 import { UUID } from "crypto";
+
+import { users as sql } from "../sql";
+import { User } from "../../types";
 
 export class UsersRepository {
   constructor(private db: IDatabase<any>, private pgp: IMain) {}
@@ -24,6 +25,6 @@ export class UsersRepository {
   }
 
   delete(values: { id: UUID }): Promise<null> {
-    return this.db.none(sql.delete, values.id)
+    return this.db.none(sql.delete, values.id);
   }
 }
