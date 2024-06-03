@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "argon2": "^0.40.3",
     "express": "^4.19.2",
     "pg-promise": "^11.8.0"
   },
