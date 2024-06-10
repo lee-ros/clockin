@@ -8,30 +8,30 @@ export async function createUser(
   request: Request<{}, {}, UserRequest>,
   response: Response<UserResponse | ErrorResponse>
 ) {
-  // const hashedPassword = await argon2.hash(request.body.password);
-  // request.body.password = hashedPassword;
+  const hashedPassword = await argon2.hash(request.body.password);
+  request.body.password = hashedPassword;
 
-  // const user = db.users.byEmail(request.body.email);
-  // if (user !== null) {
-  //   return response
-  //     .status(StatusCodes.UNPROCESSABLE_ENTITY)
-  //     .send({ error: "Email already exists" });
-  // }
+  const user = db.users.byEmail(request.body.email);
+  if (user !== null) {
+    return response
+      .status(StatusCodes.UNPROCESSABLE_ENTITY)
+      .send({ error: "Email already exists" });
+  }
 
-  // let newUser;
-  // try {
-  //   newUser = await db.users.add({ ...request.body });
-  //   console.log(`New user created with email ${newUser.email}`);
-  // } catch {
-  //   return response
-  //     .status(StatusCodes.INTERNAL_SERVER_ERROR)
-  //     .send({ error: ReasonPhrases.INTERNAL_SERVER_ERROR });
-  // }
+  let newUser;
+  try {
+    newUser = await db.users.add({ ...request.body });
+    console.log(`New user created with email ${newUser.email}`);
+  } catch {
+    return response
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .send({ error: ReasonPhrases.INTERNAL_SERVER_ERROR });
+  }
 
-  // const { id, firstName, lastName, email, createdAt } = newUser;
-  // return response
-  //   .status(StatusCodes.CREATED)
-  //   .send({ id, firstName, lastName, email, createdAt });
+  const { id, firstName, lastName, email, createdAt } = newUser;
+  return response
+    .status(StatusCodes.CREATED)
+    .send({ id, firstName, lastName, email, createdAt });
 }
 
 export async function deleteUser(
