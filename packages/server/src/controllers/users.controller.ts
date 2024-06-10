@@ -1,13 +1,11 @@
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
 
-import {
-  idSchema,
-} from "./users.schema";
-import * as db from "./users.db";
+import { idSchema } from "../validation/common.schema";
+import * as db from "../db/users.db";
 import { z } from "zod";
 import { StatusCodes, ReasonPhrases } from "http-status-codes";
-import { exclude } from "../../db/utils";
+import { exclude } from "../db/utils";
 
 export async function getUserById(
   request: Request<z.infer<typeof idSchema>>,
@@ -53,7 +51,10 @@ export async function updateUser(
   return response.status(StatusCodes.CREATED).send(exclude(user, ["password"]));
 }
 
-export async function deleteUser(request: Request<z.infer<typeof idSchema>>, response: Response) {
-    await db.deleteUser(request.params.id);
-    return response.status(StatusCodes.OK).send(ReasonPhrases.OK);
+export async function deleteUser(
+  request: Request<z.infer<typeof idSchema>>,
+  response: Response
+) {
+  await db.deleteUser(request.params.id);
+  return response.status(StatusCodes.OK).send(ReasonPhrases.OK);
 }

@@ -1,8 +1,8 @@
 import * as argon2 from "argon2";
 import { Prisma, User } from "@prisma/client";
 
-import prisma from "../../db";
-import { handleDbError } from "../../db/utils";
+import prisma from ".";
+import { handleDbError } from "./utils";
 
 async function hashPassword(password: string): Promise<string> {
   return argon2.hash(password);

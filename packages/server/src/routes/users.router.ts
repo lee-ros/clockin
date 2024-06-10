@@ -4,9 +4,10 @@ import {
   getUserById,
   updateUser,
   deleteUser,
-} from "./users.controller";
-import { validateRouteSchema } from "../validationHelper";
-import { createUserSchema, idSchema, updateUserSchama } from "./users.schema";
+} from "../controllers/users.controller";
+import { validateRouteSchema } from "../validation/validationHelper";
+import { createUserSchema, updateUserSchama } from "../validation/users.schema";
+import { idSchema } from "../validation/common.schema";
 
 const router = Router();
 
